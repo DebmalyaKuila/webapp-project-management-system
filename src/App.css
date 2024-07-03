@@ -1,0 +1,11 @@
+
+@media (width>600px) {
+    .ant-drawer{
+        display:none;
+    }
+}
+@media (width<600px) {
+    .ant-layout-sider , .ant-layout-sider-dark{
+        display:none;
+    }
+}
