@@ -13,7 +13,7 @@ const NavBar = ({collapsed,toggleCollapsed}) => {
         className='h-screen fixed top-0 left-0 bottom-0 overflow-x-hidden font-bold'
         >
             <div>
-          <Header className='flex justify-center items-center' >
+          <Header className='flex justify-center items-center mb-16' >
           <Logo/>
           </Header>
           <MenuList />

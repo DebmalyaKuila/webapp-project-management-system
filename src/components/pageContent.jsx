@@ -5,7 +5,7 @@ import Dashboard from '../pages/Dashboard'
 
 const PageContent = () => {
   return (
-    <div className='flex flex-col w-full h-full p-4'>
+    <div className='flex flex-col w-full h-full p-4 bg-slate-200'>
       <Dashboard />
       
     </div>

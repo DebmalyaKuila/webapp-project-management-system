@@ -14,7 +14,7 @@ const MainHeader = ({collapsed,toggleCollapsed}) => {
     <Button
         type="primary"
         onClick={toggleCollapsed}
-        style={{backgroundColor:"inherit",color:"white"}}
+        style={{backgroundColor:"inherit",color:"white",border:"2px solid white"}}
       >
       {collapsed ? <MenuUnfoldOutlined className='text-lg'/> : <MenuFoldOutlined className='text-lg' />}
     </Button>
