@@ -8,6 +8,7 @@ import MainHeader from './components/MainHeader.jsx';
 import PageContent from './components/pageContent.jsx';
 
 import Login from './pages/Login.jsx';
+import PasswordReset from './pages/PasswordReset.jsx';
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
@@ -15,7 +16,8 @@ function App() {
     setCollapsed(!collapsed);
   };
   return (
-    <Login/>
+    // <Login/>
+    <PasswordReset/>
     // <div>
     //   <Layout hasSider>
     //     <NavBar toggleCollapsed={toggleCollapsed} collapsed={collapsed}/>
