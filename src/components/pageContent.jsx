@@ -20,7 +20,7 @@ const PageContent = () => {
       {/* <Employees employees={employees} setEmployees={setEmployees}  /> */}
       {/* <Projects projects={projects} setProjects={setProjects}/> */}
        <Clients clients={clients} setClients={setClients}/>
-       <Invoices/>
+       {/* <Invoices/> */}
     </div>
   )
 }
