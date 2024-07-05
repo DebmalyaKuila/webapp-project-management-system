@@ -11,9 +11,9 @@ import {
 
   const items = [
     { key: "dashboard", label: "Dashboard",  icon: <HomeOutlined />, },
-    { key: "contacts", label: "Contacts",  icon: <UsergroupAddOutlined /> },
+    { key: "employees", label: "Employees",  icon: <UsergroupAddOutlined /> },
     { key: "projects", label: "Projects",  icon: <ProjectOutlined/>, },
-    { key: "customers", label: "Customers",  icon: <ContactsOutlined />, },
+    { key: "clients", label: "Clients",  icon: <ContactsOutlined />, },
     { key: "invoices", label: "Invoices",  icon: <MoneyCollectOutlined />, },
   ];
 
