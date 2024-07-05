@@ -1,11 +1,27 @@
-import React,{useState}  from 'react'
+import React  from 'react'
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     UserOutlined
 } from "@ant-design/icons"
-import { Button, Layout } from 'antd';
+import { Button, Layout ,Dropdown } from 'antd';
 const { Header} = Layout;
+
+const items=[
+  {
+    key:"account",
+    label:(
+      <a href="#"> Your Profile </a>
+    )
+  },
+  {
+    key:"logout",
+    danger:true,
+    label:(
+      <a href="/" > Log out </a>
+    )
+  }
+]
 
 const MainHeader = ({collapsed,toggleCollapsed}) => {
 
@@ -18,7 +34,10 @@ const MainHeader = ({collapsed,toggleCollapsed}) => {
       >
       {collapsed ? <MenuUnfoldOutlined className='text-lg'/> : <MenuFoldOutlined className='text-lg' />}
     </Button>
-    <UserOutlined className='p-3 rounded-full bg-slate-300 text-slate-600'/>
+    <Dropdown 
+    menu={{items}}>
+      <UserOutlined className='p-3 rounded-full bg-slate-300 text-slate-600'/>
+    </Dropdown>
     </Header>
   )
 }

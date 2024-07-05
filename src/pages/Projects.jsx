@@ -15,8 +15,10 @@ const tailLayout = {
 };
 
 
-const Projects = ({projects,setProjects}) => {
+const Projects = () => {
   const [isModalOpen, setisModalOpen] = useState(false);
+
+  const [projects, setProjects] = useState([]);
 
   const onFinish =(data)=>{
     //API call 

@@ -58,7 +58,7 @@ const Login = () => {
                 <Item
                     {...tailLayout}
                 >
-                    <a href='#' className='text-cyan-400 underline'>forgot password?</a>
+                    <a href='/reset-password' className='text-cyan-400 underline'>forgot password?</a>
                 </Item>
             </Form>
         </div>

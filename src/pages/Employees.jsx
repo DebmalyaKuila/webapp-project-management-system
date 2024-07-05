@@ -15,7 +15,8 @@ const tailLayout = {
 };
 
 
-const Contacts = ({employees,setEmployees}) => {
+const Employees = () => {
+  const [employees, setEmployees] = useState([]);
   const [isModalOpen, setisModalOpen] = useState(false);
     const [form]=Form.useForm()
   const onFinish =(data)=>{
@@ -117,4 +118,4 @@ const Contacts = ({employees,setEmployees}) => {
   )
 }
 
-export default Contacts
+export default Employees

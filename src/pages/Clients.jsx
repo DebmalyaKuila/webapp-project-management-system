@@ -15,9 +15,11 @@ const tailLayout = {
   wrapperCol: { xs: { span: 24 }, sm: { span: 12, offset: 12 }, md: { span: 12, offset: 8 }, lg: { span: 12, offset: 8 } }
 };
 
-const Clients = ({clients,setClients}) => {
+const Clients = () => {
 
-    const [isModalOpen, setisModalOpen] = useState(false);
+  const [isModalOpen, setisModalOpen] = useState(false);
+    
+  const [clients, setClients] = useState([]);
 
   const onFinish =(data)=>{
     //API call 

@@ -8,6 +8,8 @@ import {
   } from '@ant-design/icons';
   import { Menu } from 'antd';
 
+  import { useNavigate } from 'react-router-dom';
+
 
   const items = [
     { key: "dashboard", label: "Dashboard",  icon: <HomeOutlined />, },
@@ -19,6 +21,12 @@ import {
 
 const MenuList = () => {
 
+  const navigate=useNavigate()
+
+    const onClick=({key})=>{
+        navigate(`/${key}`)
+    }
+
 
     return (
       <>
@@ -26,6 +34,7 @@ const MenuList = () => {
       theme='dark'
       items={items}
       defaultSelectedKeys={['dashboard']}
+      onClick={onClick}
       />
       </>
        

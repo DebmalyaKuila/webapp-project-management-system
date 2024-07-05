@@ -15,7 +15,7 @@ const PasswordResetEmailForm = ({ setIsVisible }) => {
   const onFinish = (data) => {
     try {
     //Make API call
-    console.log(data);
+    message.info("A password reset pin is sent to your email",2)
     setIsVisible(false)
     } catch (error) {
     message.error("Something went wrong !",2)
@@ -57,7 +57,7 @@ const PasswordResetEmailForm = ({ setIsVisible }) => {
         <Item
           {...tailLayout}
         >
-          <a href='#' className='text-cyan-400 underline'>Login</a>
+          <a href='/' className='text-cyan-400 underline'>Login</a>
         </Item>
       </Form>
     </>

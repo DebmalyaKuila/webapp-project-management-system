@@ -15,7 +15,7 @@ const PasswordResetCodeForm = () => {
     const onFinish=(data)=>{
         try {
             //API call
-
+            message.success("Password changed succesfully",1)
             //redirect to login page
         } catch (error) {
             message.error("something went wrong !",2)
@@ -92,7 +92,7 @@ const PasswordResetCodeForm = () => {
       <Item
         {...tailLayout}
       >
-        <a href='#' className='text-cyan-400 underline'>Login</a>
+        <a href='/' className='text-cyan-400 underline'>Login</a>
       </Item>
     </Form>
   </>
