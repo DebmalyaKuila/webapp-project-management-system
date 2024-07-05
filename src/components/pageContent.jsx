@@ -4,6 +4,7 @@ import Dashboard from '../pages/Dashboard'
 import Employees from '../pages/Employees'
 import Projects from '../pages/Projects'
 import Clients from '../pages/Clients'
+import Invoices from '../pages/Invoices'
 
 
 const PageContent = () => {
@@ -19,6 +20,7 @@ const PageContent = () => {
       {/* <Employees employees={employees} setEmployees={setEmployees}  /> */}
       {/* <Projects projects={projects} setProjects={setProjects}/> */}
        <Clients clients={clients} setClients={setClients}/>
+       <Invoices/>
     </div>
   )
 }
