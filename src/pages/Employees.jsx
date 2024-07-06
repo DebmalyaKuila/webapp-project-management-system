@@ -96,6 +96,18 @@ const Employees = () => {
            <Select.Option value="human resources">Human Resources</Select.Option>
           </Select>
        </Item>
+       <Item 
+          label="Password" 
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Please enter employee's login password"
+            }
+          ]}
+          > 
+          <Input.Password placeholder="employee's login password" /> 
+          </Item>
           <Item 
           {...tailLayout}
           > 

@@ -4,7 +4,6 @@ const { Item } = Form;
 
 import AddCard from '../components/AddCard';
 import ClientCard from '../components/ClientCard';
-import { NodeIndexOutlined } from '@ant-design/icons';
 
 
 const layout = {

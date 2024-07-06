@@ -10,11 +10,13 @@ const tailLayout = {
   wrapperCol: { xs: { span: 24 }, sm: { span: 12, offset: 12 }, md: { span: 12, offset: 8 }, lg: { span: 12, offset: 8 } }
 };
 
-const PasswordResetEmailForm = ({ setIsVisible }) => {
+const PasswordResetEmailForm = ({ setIsVisible,setEmail}) => {
 
-  const onFinish = (data) => {
+  const onFinish =async (data) => {
     try {
-    //Make API call
+    //Make API call to generate password reset pin
+    console.log(data ,"form");
+    await setEmail(data.email)
     message.info("A password reset pin is sent to your email",2)
     setIsVisible(false)
     } catch (error) {

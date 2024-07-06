@@ -10,11 +10,14 @@ const tailLayout = {
   wrapperCol: { xs: { span: 24 }, sm: { span: 12, offset: 12 }, md: { span: 12, offset: 8 }, lg: { span: 12, offset: 8 } }
 };
 
-const PasswordResetCodeForm = () => {
+const PasswordResetCodeForm = ({email}) => {
 
     const onFinish=(data)=>{
         try {
-            //API call
+            delete data.ConfirmPassword
+            const apiData={...data,email}
+            console.log(apiData,"api call");
+            //API call to reset password
             message.success("Password changed succesfully",1)
             //redirect to login page
         } catch (error) {
@@ -34,8 +37,8 @@ const PasswordResetCodeForm = () => {
     >
       <Typography.Title level={2} className='w-full flex justify-center text-lg font-bold pb-2'>Password reset</Typography.Title>
       <Item
-        label="New password"
-        name="password"
+        label="Password"
+        name="newPassword"
         rules={[
           {
             required: true,message: "Please enter your new password"
@@ -57,7 +60,7 @@ const PasswordResetCodeForm = () => {
           ({getFieldValue})=>(
             {
                 validator(_,value){
-                    if(!value || value == getFieldValue("password")){
+                    if(!value || value == getFieldValue("newPassword")){
                         return Promise.resolve()
                     }
                     return Promise.reject("both passwords has to be same")
