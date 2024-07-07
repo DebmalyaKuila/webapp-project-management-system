@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form , message , Input, Button,Modal, Typography ,Space ,DatePicker  } from 'antd'
+import { Form , message , Input, Button,Modal, Typography ,Space  } from 'antd'
 const { Item } = Form;
 
 import AddCard from '../components/AddCard';

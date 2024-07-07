@@ -49,7 +49,7 @@ const Employees = () => {
     form={form}
     onFinish={onFinish}
     >
-        <Space className='w-full flex justify-center text-lg font-bold my-10'>Create a project</Space>
+        <Space className='w-full flex justify-center text-lg font-bold my-10'>Add employee</Space>
           <Item 
           label="Name" 
           name="name"

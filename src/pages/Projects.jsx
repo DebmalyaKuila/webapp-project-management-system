@@ -23,7 +23,7 @@ const Projects = () => {
   const onFinish =(data)=>{
     //API call 
     try {
-    data.deadline=data.deadline.toISOString().slice(0,10)
+    data.deadline=data.deadline.toISOString()
     setProjects([...projects,data])
     setisModalOpen(false)
     message.success("created new project",2 )
