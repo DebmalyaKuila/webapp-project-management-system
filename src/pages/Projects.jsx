@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import { Form , message , Input, Button,Modal, Typography ,Space ,DatePicker  } from 'antd'
 const { Item } = Form;
+import axios from 'axios';
 
 import AddCard from '../components/AddCard';
 import ProjectCard from '../components/ProjectCard';
@@ -19,6 +20,14 @@ const Projects = () => {
   const [isModalOpen, setisModalOpen] = useState(false);
 
   const [projects, setProjects] = useState([]);
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/v1/projects/`,
+    { headers: { Authorization: `Bearer ${sessionStorage.getItem("accessJWT")}` }})
+    .then(res=>res.data)
+    .then(data => setProjects(data.projects))
+
+  },[])
+
 
   const onFinish =(data)=>{
     //API call 

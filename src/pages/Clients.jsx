@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Form , message , Input, Button,Modal, Typography ,Space  } from 'antd'
 const { Item } = Form;
+import axios from 'axios';
 
 import AddCard from '../components/AddCard';
 import ClientCard from '../components/ClientCard';
@@ -16,14 +17,20 @@ const tailLayout = {
 
 const Clients = () => {
 
-  const [isModalOpen, setisModalOpen] = useState(false);
-    
+  
   const [clients, setClients] = useState([]);
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/v1/clients/`,
+    { headers: { Authorization: `Bearer ${sessionStorage.getItem("accessJWT")}` }})
+    .then(res=>res.data)
+    .then(data => setClients(data.clients))
 
+  },[])
+  
+  const [isModalOpen, setisModalOpen] = useState(false);
   const onFinish =(data)=>{
     //API call 
     try {
-    setClients([...clients,data])
     setisModalOpen(false)
     message.success("created new project",2 )
       

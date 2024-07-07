@@ -1,6 +1,8 @@
 import React from 'react';
-import { Form, message, Input, Button, Modal, Typography, Space, DatePicker } from 'antd'
+import { Form, message, Input, Button, Typography } from 'antd'
 const { Item } = Form;
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const layout = {
     labelCol: { xs: { span: 24 }, sm: { span: 10 }, md: { span: 8 }, lg: { span: 8 } },
@@ -11,9 +13,21 @@ const tailLayout = {
 };
 
 const Login = () => {
+    const navigate=useNavigate()
 
-    const onFinish = (data) => {
-        console.log(data);
+    const onFinish = async(data) => {
+        try {
+            const res=await axios.post(`${import.meta.env.VITE_API_BASE_URL}/v1/user/login`, data);
+            console.log(res.data);
+            await sessionStorage.setItem("accessJWT",res.data.accessToken)
+            await localStorage.setItem("project-mangement-system",JSON.stringify({refreshJWT:res.data.refreshToken}))
+            await navigate("/dashboard");
+            message.success(res.data.message,2)
+            
+        } catch (error) {
+            message.error("Cannot login !",2)
+            console.log(error);
+        }
     }
     return (
         <div className='min-h-screen flex justify-center items-center bg-slate-300'>

@@ -1,6 +1,7 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { Form , message , Input, Button,Modal, Typography ,Space ,Select  } from 'antd'
 const { Item } = Form;
+import axios from 'axios';
 
 import AddCard from '../components/AddCard'
 import EmployeeCard from '../components/EmployeeCard'
@@ -17,8 +18,17 @@ const tailLayout = {
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/v1/user/`,
+    { headers: { Authorization: `Bearer ${sessionStorage.getItem("accessJWT")}` }})
+    .then(res=>res.data)
+    .then(data => setEmployees(data))
+
+  },[])
+
   const [isModalOpen, setisModalOpen] = useState(false);
-    const [form]=Form.useForm()
+  const [form]=Form.useForm()
   const onFinish =(data)=>{
     //API call 
     setisModalOpen(false)
