@@ -87,10 +87,6 @@ const [isModalOpen2, setisModalOpen2] = useState(false);
           <Button 
           htmlType="submit" 
           type="primary">Save</Button>
-          <Button 
-          danger 
-          className='ml-16' 
-          onClick={()=>deleteEmployee(employee._id)}>Delete</Button>
           </Item> 
     </Form>
   </Modal>
