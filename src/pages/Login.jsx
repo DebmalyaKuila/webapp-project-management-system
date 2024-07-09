@@ -18,7 +18,6 @@ const Login = () => {
     const onFinish = async(data) => {
         try {
             const res=await axios.post(`${import.meta.env.VITE_API_BASE_URL}/v1/user/login`, data);
-            console.log(res.data);
             await sessionStorage.setItem("accessJWT",res.data.accessToken)
             await localStorage.setItem("project-mangement-system",JSON.stringify({refreshJWT:res.data.refreshToken}))
             await navigate("/dashboard");
