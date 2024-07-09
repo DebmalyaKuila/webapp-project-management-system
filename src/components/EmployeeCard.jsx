@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {UserOutlined} from '@ant-design/icons';
+import { EditOutlined,DeleteOutlined,UserOutlined} from '@ant-design/icons';
 import { Form , message ,Card , Input, Button,Modal, Typography ,Space ,Select  } from 'antd'
 const { Meta } = Card;
 const { Item } = Form;
@@ -13,27 +13,10 @@ const tailLayout = {
 };
 
 
-const EmployeeCard = ({employee}) => {
+const EmployeeCard = ({employee,deleteEmployee,editEmployee}) => {
 
 const [isModalOpen, setisModalOpen] = useState(false);
-const onFinish =(formData)=>{
-  console.log(formData);
-  setisModalOpen(false)
-  //API call to update employee details
-  console.log("edit data :",data);
-  try {
-    message.success("edited employee data",2 )
-    
-  } catch (error) {
-    message.error("Some error occured !",2 )
-    console.log(error);
-  }
-
-}
-
-const deleteEmployee=()=>{
-  console.log("deleted");
-}
+const [isModalOpen2, setisModalOpen2] = useState(false);
 
   return (<>
   <Modal
@@ -46,8 +29,10 @@ const deleteEmployee=()=>{
     <Form 
     {...layout}
     initialValues={employee}
-    name='employeeForm'
-    onFinish={onFinish}
+    onFinish={(formData)=>{
+      editEmployee(employee._id,formData)
+      setisModalOpen(false)
+    }}
     >
         <Space className='w-full flex justify-center text-lg font-bold my-10'>Edit employee</Space>
           <Item 
@@ -99,26 +84,59 @@ const deleteEmployee=()=>{
           <Item 
           {...tailLayout}
           > 
-          <Button htmlType="submit" type="primary">Save</Button>
-          <Button danger className='ml-16' onClick={deleteEmployee}>Delete</Button>
+          <Button 
+          htmlType="submit" 
+          type="primary">Save</Button>
+          <Button 
+          danger 
+          className='ml-16' 
+          onClick={()=>deleteEmployee(employee._id)}>Delete</Button>
           </Item> 
     </Form>
   </Modal>
     <Card
     hoverable
-    onClick={() => setisModalOpen(true)}
     style={{
       width:"150px",
       height:"200px",
-      margin:"25px 40px"
+      margin:"5px 25px 40px"
   }}
-  cover={<div style={{height:"100px"}} ><UserOutlined className='text-6xl w-full h-full bg-slate-200 text-slate-500 flex justify-center items-center'/></div>}
+  cover={<div style={{height:"80px"}} >
+    <UserOutlined className='text-6xl w-full h-full bg-slate-200 text-slate-500 flex justify-center items-center'/>
+    <div  style={{height:"45px"}} className='px-2 overflow-hidden text-sm'>{employee.name}</div>
+    </div>}
+  actions={[
+    <EditOutlined style={{color:"blue"}} 
+    key="edit" 
+    onClick={() => setisModalOpen(true)}
+    />,
+    <DeleteOutlined style={{color:"red"}} 
+    key="delete" 
+    onClick={()=>setisModalOpen2(true)}
+    // onClick={()=>deleteEmployee(employee._id)}
+    />
+  ]}
   >
     <Meta
-    title={<p className='px-2 inline'>{employee.name}</p>}
-    description={<p className='bg-green-500 w-full font-semibold text-white px-2'>{employee.designation}</p>}
+
+    description={<p  style={{height:"46px"}}
+      className='bg-blue-400 font-semibold text-white mt-8 px-2 rounded'>{employee.designation}</p>}
     ></Meta>
   </Card>
+  <Modal
+  open={isModalOpen2} 
+  centered
+  okText="Delete"
+  okType='danger'
+  title="Are you sure ?"
+  onCancel={()=>setisModalOpen2(false)}
+  onClose={()=>setisModalOpen2(false)}
+  onOk={()=>{
+    deleteEmployee(employee._id)
+    setisModalOpen2(false)
+  }}
+  >
+  </Modal>
   </>
   )
 }

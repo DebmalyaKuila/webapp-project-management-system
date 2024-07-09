@@ -13,8 +13,7 @@ const layout = {
 }
 const tailLayout = {
   wrapperCol: { xs: { span: 24 }, sm: { span: 12, offset: 12 }, md: { span: 12, offset: 8 }, lg: { span: 12, offset: 8 } }
-};
-
+}
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
@@ -29,21 +28,54 @@ const Employees = () => {
 
   const [isModalOpen, setisModalOpen] = useState(false);
   const [form]=Form.useForm()
-  const onFinish =(data)=>{
-    //API call 
-    setisModalOpen(false)
-    console.log(data);
-    try {
-      setEmployees([...employees,data])
-      message.success("Added new employee",2 )
-      
-    } catch (error) {
-      message.error("Some error occured !",2 )
-      console.log(error);
-    }
-    form.resetFields()
 
-}
+  const addEmployee =(data)=>{
+    //API call 
+    axios.post(`${import.meta.env.VITE_API_BASE_URL}/v1/user/` , data , { headers: { Authorization: `Bearer ${sessionStorage.getItem("accessJWT")}` }})
+    .then(res=>res.data)
+    .then(data =>{
+       setEmployees([...employees,data.user])
+       message.success("Added new employee",2 )
+      }).catch(err =>{
+      message.error("Some error occured !",2 )
+      })
+
+    setisModalOpen(false)
+    form.resetFields()
+    }
+
+    const editEmployee=(id,data)=>{
+      //API call 
+    axios.patch(`${import.meta.env.VITE_API_BASE_URL}/v1/user/${id}` , data , { headers: { Authorization: `Bearer ${sessionStorage.getItem("accessJWT")}` }})
+    .then(res=>res.data)
+    .then(data =>{
+       console.log(data)
+       const newData=employees.map( employee =>{
+        if (employee._id==id) {
+          return data  
+        }
+        return employee
+       })
+       setEmployees(newData)
+       message.success("changed employee details",2 )
+      }).catch(err =>{
+      message.error("Some error occured !",2 )
+      })
+    }
+
+    const deleteEmployee =(id)=>{
+      //API call 
+      axios.delete(`${import.meta.env.VITE_API_BASE_URL}/v1/user/${id}`, { headers: { Authorization: `Bearer ${sessionStorage.getItem("accessJWT")}` }})
+      .then(res=>res.data)
+      .then(data =>{
+        const newData=employees.filter( emp => emp._id!=id)
+         setEmployees(newData)
+         message.success("Deleted employee details",2 )
+        }).catch(err =>{
+        message.error("Some error occured !",2 )
+        console.log(err);
+        })
+      }
 
   return (
     <><Modal
@@ -57,7 +89,7 @@ const Employees = () => {
     {...layout}
     name='createEmployeeForm'
     form={form}
-    onFinish={onFinish}
+    onFinish={addEmployee}
     >
         <Space className='w-full flex justify-center text-lg font-bold my-10'>Add employee</Space>
           <Item 
@@ -131,7 +163,12 @@ const Employees = () => {
       <div className='flex flex-wrap mt-8'>
         <AddCard title="Add Employee" setisModalOpen={setisModalOpen} isModalOpen={isModalOpen}  />
           {
-            employees.map((employee,index)=> <EmployeeCard key={index} employee={employee}/>)
+            employees.map((employee,index)=>
+            <EmployeeCard 
+            key={index} 
+            editEmployee={editEmployee}
+            deleteEmployee={deleteEmployee} 
+            employee={employee}/>)
           }
       </div>
     </div>
