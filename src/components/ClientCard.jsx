@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {UserOutlined} from '@ant-design/icons';
+import { EditOutlined,DeleteOutlined,UserOutlined} from '@ant-design/icons';
 import { Form , message ,Card , Input, Button,Modal, Space } from 'antd'
 const { Meta } = Card;
 const { Item } = Form;
@@ -16,6 +16,8 @@ const tailLayout = {
 const ClientCard = ({client}) => {
 
   const [isModalOpen, setisModalOpen] = useState(false);
+  const [isModalOpen2, setisModalOpen2] = useState(false)
+
   const onFinish =(formData)=>{
     console.log(formData);
     setisModalOpen(false)
@@ -46,7 +48,6 @@ const ClientCard = ({client}) => {
   >
    <Form 
 {...layout}
-name='ClientForm'
 initialValues={client}
 onFinish={onFinish}
 >
@@ -128,32 +129,56 @@ onFinish={onFinish}
       {...tailLayout}
       > 
       <Button htmlType="submit" type="primary">Save</Button>
-      <Button danger onClick={deleteClient}>Save</Button>
       </Item> 
 </Form>
   </Modal>
     <Card
-    onClick={()=>setisModalOpen(true)}
     hoverable
     style={{
       width:"150px",
       height:"200px",
-      margin:"25px 40px"
+      margin:"5px 25px 40px"
   }}
-  cover={<div style={{height:"70px"}} ><UserOutlined className='text-6xl w-full h-full bg-slate-200 text-slate-500 flex justify-center items-center'/></div>}
+  cover={<div style={{height:"80px"}} >
+    <UserOutlined className='text-6xl w-full h-full bg-slate-200 text-slate-500 flex justify-center items-center'/>
+    <div style={{height:"50px"}} className='font-semibold text-black px-1 rounded text-center'>{client.name}</div>
+    </div>}
+
+actions={[
+  <EditOutlined style={{color:"blue"}} 
+  key="edit" 
+  onClick={() => setisModalOpen(true)}
+  />,
+  <DeleteOutlined style={{color:"red"}} 
+  key="delete" 
+  onClick={()=>setisModalOpen2(true)}
+  // onClick={()=>deleteEmployee(employee._id)}
+  />
+]}
   >
     <Meta
-    description={<div>
-      
-      <p className='bg-green-500 text-white px-1'>{client.name}</p>
-      <div className='pt-2 flex flex-col'>
-        <div>Company :</div>
-        <div>{client.company}</div>
-      </div>
-      
+    description={
+      <div 
+      style={{height:"45px"}}
+      className='bg-blue-400 text-white font-semibold mt-8 px-2 text-center'>
+          {client.company}
       </div>}
     ></Meta>
   </Card>
+  <Modal
+  open={isModalOpen2} 
+  centered
+  okText="Delete"
+  okType='danger'
+  title="Are you sure ?"
+  onCancel={()=>setisModalOpen2(false)}
+  onClose={()=>setisModalOpen2(false)}
+  onOk={()=>{
+    //delete client
+    setisModalOpen2(false)
+  }}
+  >
+  </Modal>
   </>
   )
 }

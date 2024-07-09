@@ -103,7 +103,7 @@ const [isModalOpen2, setisModalOpen2] = useState(false);
   }}
   cover={<div style={{height:"80px"}} >
     <UserOutlined className='text-6xl w-full h-full bg-slate-200 text-slate-500 flex justify-center items-center'/>
-    <div  style={{height:"45px"}} className='px-2 overflow-hidden text-sm'>{employee.name}</div>
+    <div  style={{height:"45px"}} className='px-2 overflow-hidden text-sm text-center'>{employee.name}</div>
     </div>}
   actions={[
     <EditOutlined style={{color:"blue"}} 
@@ -120,7 +120,7 @@ const [isModalOpen2, setisModalOpen2] = useState(false);
     <Meta
 
     description={<p  style={{height:"46px"}}
-      className='bg-blue-400 font-semibold text-white mt-8 px-2 rounded'>{employee.designation}</p>}
+      className='bg-blue-400 font-semibold text-white mt-8 px-2 rounded text-center'>{employee.designation}</p>}
     ></Meta>
   </Card>
   <Modal
