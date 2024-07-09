@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {UserOutlined} from '@ant-design/icons';
+import { EditOutlined,DeleteOutlined} from '@ant-design/icons';
 import { Form , message ,Card , Input, Button , Modal, Space ,DatePicker  } from 'antd'
 const { Meta } = Card;
 const { Item } = Form;
@@ -89,26 +89,27 @@ const ProjectCard = ({project}) => {
           {...tailLayout}
           > 
           <Button htmlType="submit" type="primary">Save</Button>
-          <Button danger className='ml-16' onClick={deleteProject}>Delete</Button>
           </Item> 
     </Form>
       </Modal>
     <Card
-    onClick={()=>setisModalOpen(true)}
     hoverable
     style={{
       width:"150px",
       height:"200px",
-      margin:"25px 40px"
+      margin:"5px 50px 75px"
   }}
-  cover={<div style={{height:"70px"}} ><UserOutlined className='text-6xl w-full h-full bg-slate-200 text-slate-500 flex justify-center items-center'/></div>}
+  cover={<p style={{height:"75px"}} className='bg-blue-400 font-semibold text-white py-2 px-1 rounded'>{project.title}</p>}
+  actions={[
+    <EditOutlined style={{color:"blue"}} key="edit" onClick={()=>setisModalOpen(true)}/>,
+    <DeleteOutlined style={{color:"red"}} key="delete" onClick={deleteProject}/>
+  ]}
   >
     <Meta
     description={<div>
-      
-      <p className='bg-green-500 text-white px-1'>{project.title}</p>
       <div className='pt-2 flex flex-col'>
-        <div>Deadline :</div>
+        <div className='text-black'>{Intl.NumberFormat('en-US').format(project.income)} ₹</div>
+        <div className='text-black'>Deadline :</div>
         <div>{project.deadline}</div>
       </div>
       
