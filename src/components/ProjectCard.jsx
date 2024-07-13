@@ -14,30 +14,11 @@ const tailLayout = {
   wrapperCol: { xs: { span: 24 }, sm: { span: 12, offset: 12 }, md: { span: 12, offset: 8 }, lg: { span: 12, offset: 8 } }
 };
 
-const ProjectCard = ({project}) => {
+const ProjectCard = ({project,editProject,deleteProject}) => {
 
-  const[data,setData]=useState({...project,deadline:dayjs(project.deadline)})
 
   const [isModalOpen, setisModalOpen] = useState(false);
-  const onFinish =(formData)=>{
-    formData.deadline=formData.deadline.toISOString()
-    console.log(formData);
-    setisModalOpen(false)
-    //remember to convert the date back to string
-    //API call to update project details
-    try {
-      message.success("edited project details",2 )
-      
-    } catch (error) {
-      message.error("Some error occured !",2 )
-      console.log(error);
-    }
-  }
-  
-  const deleteProject=()=>{
-    console.log("deleted");
-  }
-  
+  const [isModalOpen2, setisModalOpen2] = useState(false);
 
 
   return (<>
@@ -49,10 +30,12 @@ const ProjectCard = ({project}) => {
         footer={null}
       >
        <Form 
-       initialValues={data}
+       initialValues={{...project,deadline:dayjs(project.deadline,"YYYY-MM-DDTHH:mm:ssZ[Z]")}}
     {...layout}
-    name='ProjectForm'
-    onFinish={onFinish}
+    onFinish={(formData)=>{
+      editProject(project._id,formData)
+      setisModalOpen(false)
+    }}
     >
         <Space className='w-full flex justify-center text-lg font-bold my-10'>Edit project</Space>
           <Item 
@@ -61,7 +44,7 @@ const ProjectCard = ({project}) => {
           rules={[
             {
               required: true,
-              message: "Please enter project title"
+              message: "project title is required"
             }
           ]}
           > 
@@ -73,17 +56,33 @@ const ProjectCard = ({project}) => {
           rules={[
             {
               required: true,
-              message: "Please enter project deadline"
+              message: "project deadline is required"
             }
           ]}
           > 
-          <DatePicker  placeholder='Project deadline' format="DD-MM-YYYY" /> 
+          <DatePicker  
+          placeholder='Project deadline' 
+          format='DD-MM-YYYY'
+          disabledDate={(current) => {
+            let customDate = dayjs().format("DD-MM-YYYY");
+            return current && current < dayjs(customDate, "DD-MM-YYYY");
+          }} 
+          allowClear/> 
           </Item>
           <Item 
           label="Income" 
           name="income"
+          rules={[
+            {
+              required: true,
+              message: "project income is required"
+            }
+          ]}
           > 
-          <Input placeholder='Project income (INR) ' type='Number'/> 
+          <Input 
+          placeholder='Project income (INR) ' 
+          type='Number'
+          /> 
           </Item>
           <Item 
           {...tailLayout}
@@ -99,23 +98,38 @@ const ProjectCard = ({project}) => {
       height:"200px",
       margin:"5px 50px 75px"
   }}
-  cover={<p style={{height:"75px"}} className='bg-blue-400 font-semibold text-white py-2 px-1 rounded'>{project.title}</p>}
+  cover={<p style={{height:"75px"}} className='bg-blue-400 font-semibold text-white py-2 px-1 rounded'>{project?.title}</p>}
   actions={[
     <EditOutlined style={{color:"blue"}} key="edit" onClick={()=>setisModalOpen(true)}/>,
-    <DeleteOutlined style={{color:"red"}} key="delete" onClick={deleteProject}/>
+    <DeleteOutlined style={{color:"red"}} key="delete" onClick={()=>setisModalOpen2(true)}/>
   ]}
   >
     <Meta
     description={<div>
       <div className='pt-2 flex flex-col'>
-        <div className='text-black'>{Intl.NumberFormat('en-US').format(project.income)} ₹</div>
+        <div className='text-black'>{project.income?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") || 0} ₹</div>
         <div className='text-black'>Deadline :</div>
-        <div>{project.deadline}</div>
+        <div>{project.deadline.slice(0,10)}</div>
       </div>
       
       </div>}
     ></Meta>
   </Card>
+  <Modal
+        open={isModalOpen2}
+        centered
+        okText="Delete"
+        okType='danger'
+        title="Are you sure ?"
+        onCancel={() => setisModalOpen2(false)}
+        onClose={() => setisModalOpen2(false)}
+        onOk={() => {
+          //delete client
+          deleteProject(project._id)
+          setisModalOpen2(false)
+        }}
+      >
+      </Modal>
   </>
   )
 }

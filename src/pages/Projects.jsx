@@ -1,11 +1,11 @@
 import React, { useState ,useEffect } from 'react';
-import { Form , message , Input, Button,Modal, Typography ,Space ,DatePicker  } from 'antd'
+import { Form , message , Input, Button,Modal, Typography ,Space ,DatePicker } from 'antd'
 const { Item } = Form;
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 import AddCard from '../components/AddCard';
 import ProjectCard from '../components/ProjectCard';
-
 
 const layout = {
   labelCol: { xs: { span: 24 }, sm: { span: 10 }, md: { span: 8 }, lg: { span: 8 } },
@@ -28,22 +28,54 @@ const Projects = () => {
 
   },[])
 
-
-  const onFinish =(data)=>{
+  const addProject=(formData)=>{
     //API call 
-    try {
-    data.deadline=data.deadline.toISOString()
-    setProjects([...projects,data])
-    setisModalOpen(false)
-    message.success("created new project",2 )
-      
-    } catch (error) {
-      setisModalOpen(false)
+    axios.post(`${import.meta.env.VITE_API_BASE_URL}/v1/projects/` , formData, { headers: { Authorization: `Bearer ${sessionStorage.getItem("accessJWT")}` }})
+    .then(res=>res.data)
+    .then(data =>{
+      setProjects([...projects,data.project])
+      message.success("Added new project",2 )
+      }).catch(err =>{
       message.error("Some error occured !",2 )
-      console.log(error);
-    }
+      })
+    setisModalOpen(false)
+  }
 
-}
+
+  const editProject = (id, data) => {
+    //API call 
+    // data.deadline=data.deadline.toISOString()
+    axios.patch(`${import.meta.env.VITE_API_BASE_URL}/v1/projects/${id}`, data, { headers: { Authorization: `Bearer ${sessionStorage.getItem("accessJWT")}` } })
+      .then(res => res.data)
+      .then(data => {
+        const newData = projects.map(project => {
+          if(project._id == id){
+            return data
+          }
+          return project
+        })
+        setProjects(newData)
+        message.success("changed project details", 2)
+      }).catch(err => {
+        message.error("Some error occured !", 2)
+      })
+  }
+
+
+  const deleteProject=(id)=>{
+    //API call  
+   axios.delete(`${import.meta.env.VITE_API_BASE_URL}/v1/projects/${id}`, { headers: { Authorization: `Bearer ${sessionStorage.getItem("accessJWT")}` } })
+   .then(res => res.data)
+   .then(data => {
+     const newData = projects.filter(project => project._id != id)
+     setProjects(newData)
+     message.success("Deleted project details", 2)
+   }).catch(err => {
+     message.error("Some error occured !", 2)
+   })
+  }
+
+
   return (
     <>
     <Modal
@@ -56,7 +88,7 @@ const Projects = () => {
        <Form 
     {...layout}
     name='createProjectForm'
-    onFinish={onFinish}
+    onFinish={addProject}
     >
         <Space className='w-full flex justify-center text-lg font-bold my-10'>Create a project</Space>
           <Item 
@@ -81,11 +113,24 @@ const Projects = () => {
             }
           ]}
           > 
-          <DatePicker  placeholder='Project deadline' format="DD-MM-YYYY" /> 
+          <DatePicker  
+          placeholder='Project deadline' 
+          format="DD-MM-YYYY"
+          disabledDate={(current) => {
+            let customDate = dayjs().format("DD-MM-YYYYTHH:mm:ssZ");
+            return current && current < dayjs(customDate, "DD-MM-YYYYTHH:mm:ss");
+          }} 
+          allowClear/> 
           </Item>
           <Item 
           label="Income" 
           name="income"
+          rules={[
+            {
+              required: true,
+              message: "Please enter estimated project income"
+            }
+          ]}
           > 
           <Input placeholder='Project income (INR) ' type='Number'/> 
           </Item>
@@ -102,7 +147,13 @@ const Projects = () => {
       <div className='flex flex-wrap mt-8'>
         <AddCard title="Add Projects" setisModalOpen={setisModalOpen} isModalOpen={isModalOpen}/>
         {
-          projects.map( (project,index) => <ProjectCard key={index} project={project}/>)
+          projects.map( (project,index) => <ProjectCard 
+          key={index} 
+          project={project}
+          editProject={editProject}
+          deleteProject={deleteProject}
+          
+          />)
         }
       </div>
     </div>
