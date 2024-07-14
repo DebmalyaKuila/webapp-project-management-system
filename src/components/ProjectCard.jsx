@@ -30,7 +30,7 @@ const ProjectCard = ({project,editProject,deleteProject}) => {
         footer={null}
       >
        <Form 
-       initialValues={{...project,deadline:dayjs(project.deadline,"YYYY-MM-DDTHH:mm:ssZ[Z]")}}
+       initialValues={{...project,deadline:dayjs(project.deadline,'DD-MM-YYYYTHH:mm:ssZ[Z]')}}
     {...layout}
     onFinish={(formData)=>{
       editProject(project._id,formData)

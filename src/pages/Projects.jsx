@@ -4,6 +4,12 @@ const { Item } = Form;
 import axios from 'axios';
 import dayjs from 'dayjs';
 
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 import AddCard from '../components/AddCard';
 import ProjectCard from '../components/ProjectCard';
 
@@ -30,6 +36,9 @@ const Projects = () => {
 
   const addProject=(formData)=>{
     //API call 
+    console.log("got formData -> ",formData);
+    formData.deadline=formData.deadline.local().format('DD-MM-YYYYTHH:mm:ssZ[Z]')
+    console.log(" deadline change , before sending to the server -> ",formData);
     axios.post(`${import.meta.env.VITE_API_BASE_URL}/v1/projects/` , formData, { headers: { Authorization: `Bearer ${sessionStorage.getItem("accessJWT")}` }})
     .then(res=>res.data)
     .then(data =>{
@@ -41,11 +50,11 @@ const Projects = () => {
     setisModalOpen(false)
   }
 
-
-  const editProject = (id, data) => {
+  const editProject = (id, formData) => {
     //API call 
     // data.deadline=data.deadline.toISOString()
-    axios.patch(`${import.meta.env.VITE_API_BASE_URL}/v1/projects/${id}`, data, { headers: { Authorization: `Bearer ${sessionStorage.getItem("accessJWT")}` } })
+    formData.deadline=formData.deadline.local().format('DD-MM-YYYYTHH:mm:ssZ[Z]')
+    axios.patch(`${import.meta.env.VITE_API_BASE_URL}/v1/projects/${id}`, formData, { headers: { Authorization: `Bearer ${sessionStorage.getItem("accessJWT")}` } })
       .then(res => res.data)
       .then(data => {
         const newData = projects.map(project => {
