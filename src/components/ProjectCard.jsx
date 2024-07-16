@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
-import { EditOutlined,DeleteOutlined} from '@ant-design/icons';
-import { Form , message ,Card , Input, Button , Modal, Space ,DatePicker  } from 'antd'
+import { EditOutlined,DeleteOutlined , EllipsisOutlined} from '@ant-design/icons';
+import { Form ,Card , Input, Button , Modal, Space ,DatePicker  } from 'antd'
+import { useNavigate } from 'react-router-dom';
 const { Meta } = Card;
 const { Item } = Form;
 
@@ -15,11 +16,10 @@ const tailLayout = {
 };
 
 const ProjectCard = ({project,editProject,deleteProject}) => {
+const navigate=useNavigate()
 
-
-  const [isModalOpen, setisModalOpen] = useState(false);
-  const [isModalOpen2, setisModalOpen2] = useState(false);
-
+const [isModalOpen, setisModalOpen] = useState(false)
+const [isModalOpen2, setisModalOpen2] = useState(false)
 
   return (<>
   <Modal
@@ -98,10 +98,11 @@ const ProjectCard = ({project,editProject,deleteProject}) => {
       height:"200px",
       margin:"5px 50px 75px"
   }}
-  cover={<p style={{height:"75px"}} className='bg-blue-400 font-semibold text-white py-2 px-1 rounded'>{project?.title}</p>}
+  cover={<p style={{height:"75px"}} className='bg-blue-400 text-center font-semibold text-white py-2 px-1 rounded'>{project?.title}</p>}
   actions={[
     <EditOutlined style={{color:"blue"}} key="edit" onClick={()=>setisModalOpen(true)}/>,
-    <DeleteOutlined style={{color:"red"}} key="delete" onClick={()=>setisModalOpen2(true)}/>
+    <DeleteOutlined style={{color:"red"}} key="delete" onClick={()=>setisModalOpen2(true)}/>,
+    <EllipsisOutlined key="details" onClick={()=>navigate(`/projects/${project._id}`)}/>,
   ]}
   >
     <Meta

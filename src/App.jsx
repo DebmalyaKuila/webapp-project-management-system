@@ -9,6 +9,7 @@ import PasswordReset from './pages/PasswordReset.jsx';
 import Dashboard from "./pages/Dashboard.jsx"
 import Employees from "./pages/Employees.jsx"
 import Projects from './pages/Projects.jsx';
+import ProjectDetail from "./components/projectDetails.jsx"
 import Clients from './pages/Clients.jsx';
 import Invoices from "./pages/Invoices.jsx"
 
@@ -40,6 +41,7 @@ function App() {
                 <Route path='/dashboard' element={<DefaultLayout ><Dashboard/></DefaultLayout>} />
                 <Route path='/employees' element={<DefaultLayout><Employees/></DefaultLayout>} />
                 <Route path='/projects' element={<DefaultLayout ><Projects/></DefaultLayout>} />
+                <Route path='/projects/:id' element={<DefaultLayout><ProjectDetail/></DefaultLayout>} />
                 <Route path='/clients' element={<DefaultLayout ><Clients/></DefaultLayout>} />
                 <Route path='/invoices' element={<DefaultLayout><Invoices/></DefaultLayout>} />
             </Routes>
